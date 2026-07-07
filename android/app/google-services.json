@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "293554277019",
+    "project_id": "my-scout-app19",
+    "storage_bucket": "my-scout-app19.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293554277019:android:c1fc5d9ed8ae2cc2ddd43e",
+        "android_client_info": {
+          "package_name": "com.example.scout_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo1Vs8TB_vFlmUlOvTcgXCk-ei1IoBQag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
