@@ -1,1 +1,22 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"my-scout-app19","appId":"1:293554277019:android:c1fc5d9ed8ae2cc2ddd43e","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"my-scout-app19","configurations":{"android":"1:293554277019:android:c1fc5d9ed8ae2cc2ddd43e","ios":"1:293554277019:ios:7a8bd89a12240fc2ddd43e"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "scout-app190",
+          "appId": "1:379357791203:android:c3f05703b3a087b06256d6",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "scout-app190",
+          "configurations": {
+            "android": "1:379357791203:android:c3f05703b3a087b06256d6",
+            "ios": "1:379357791203:ios:7b84844fbf0e16b06256d6"
+          }
+        }
+      }
+    }
+  }
+}

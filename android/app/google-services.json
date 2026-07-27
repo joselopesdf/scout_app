@@ -1,26 +1,51 @@
 {
   "project_info": {
-    "project_number": "293554277019",
-    "project_id": "my-scout-app19",
-    "storage_bucket": "my-scout-app19.firebasestorage.app"
+    "project_number": "379357791203",
+    "project_id": "scout-app190",
+    "storage_bucket": "scout-app190.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:293554277019:android:c1fc5d9ed8ae2cc2ddd43e",
+        "mobilesdk_app_id": "1:379357791203:android:c3f05703b3a087b06256d6",
         "android_client_info": {
-          "package_name": "com.example.scout_app"
+          "package_name": "cv.joselopesdf.scoutapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "379357791203-87ob4eu759ov5jjmcs9bdbn7dsnvn7mc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cv.joselopesdf.scoutapp",
+            "certificate_hash": "3498a41df4646a9db23bbb9a62c4d103f4031e5e"
+          }
+        },
+        {
+          "client_id": "379357791203-04qi8t1k44nk76s6o5c8dm6ikamvaemn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyDo1Vs8TB_vFlmUlOvTcgXCk-ei1IoBQag"
+          "current_key": "AIzaSyA2fClDELCcH0CTJZIQQUZPUPwfciPJXsc"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "379357791203-04qi8t1k44nk76s6o5c8dm6ikamvaemn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "379357791203-ff4aq6k0ik9argo5s53mtsfq21r5d9o8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.scoutApp"
+              }
+            }
+          ]
         }
       }
     }

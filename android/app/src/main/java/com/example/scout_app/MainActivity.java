@@ -1,4 +1,4 @@
-package com.example.scout_app;
+package cv.joselopesdf.scoutapp ;
 
 import io.flutter.embedding.android.FlutterActivity;
 

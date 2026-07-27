@@ -1,34 +1,21 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
-import 'app.dart';
-import 'core/debug/riverpod_logger.dart';
-import 'core/local_storage/hive_boxes.dart';
-import 'firebase_options.dart';
+import 'config/bootstrap.dart';
+import 'config/riverpod_logger.dart';
+import 'ui/authentication/view_models/auth_session_view_model.dart';
+import 'ui/core/widgets/scout_app.dart';
+import 'ui/onboarding/view_models/onboarding_view_model.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  await bootstrap();
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  final container = ProviderContainer(observers: const [RiverpodLogger()]);
 
-  await Hive.initFlutter();
-
-  await Hive.openBox(HiveBoxes.settings);
-  await Hive.openBox(HiveBoxes.auth);
-  await Hive.openBox(HiveBoxes.players);
-  await Hive.openBox(HiveBoxes.appVersion);
-
+  container.read(onboardingViewModelProvider);
+  container.read(authSessionViewModelProvider);
 
   runApp(
-    const ProviderScope(
-      observers: [
-        RiverpodLogger(),
-      ],
-      child: ScoutApp(),
-    ),
+    UncontrolledProviderScope(container: container, child: const ScoutApp()),
   );
 }
