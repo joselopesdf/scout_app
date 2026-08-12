@@ -1,3 +1,4 @@
+import '../../domain/entities/account_type.dart';
 import '../../domain/entities/app_user.dart';
 import '../../domain/repositories/account_repository.dart';
 import '../mappers/app_user_mapper.dart';
@@ -41,4 +42,38 @@ class AccountRepositoryImpl implements AccountRepository {
       data: createdData,
     );
   }
+
+
+  @override
+  Future<AppUser> updateAccountType({
+    required AppUser user,
+    required AccountType accountType,
+  }) async {
+    final updatedUser = user.copyWith(
+      accountType: accountType,
+    );
+
+    await _userFirestoreService.update(
+      uid: user.uid,
+      data: AppUserMapper.toUpdateMap(updatedUser),
+    );
+
+    final updatedDocument = await _userFirestoreService.findByUid(
+      user.uid,
+    );
+
+    final updatedData = updatedDocument.data();
+
+    if (!updatedDocument.exists || updatedData == null) {
+      throw StateError(
+        'O tipo da conta foi atualizado, mas o utilizador não pôde ser carregado.',
+      );
+    }
+
+    return AppUserMapper.fromFirestore(
+      uid: updatedDocument.id,
+      data: updatedData,
+    );
+  }
+
 }

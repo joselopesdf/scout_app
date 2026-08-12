@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/authentication/presentation/pages/account_bootstrap_page.dart';
-import '../../features/authentication/presentation/pages/account_page.dart';
 import '../../features/authentication/presentation/pages/login_page.dart';
 import '../../features/authentication/presentation/pages/splash_page.dart';
 import '../../features/authentication/presentation/viewmodels/auth_session_state.dart';
@@ -38,18 +37,25 @@ final routerProvider = Provider<GoRouter>((ref) {
       }
 
       final onboarding = ref.read(onboardingViewModelProvider);
+
       if (onboarding is! OnboardingCompleted) {
-        return location == RouteNames.onboarding ? null : RouteNames.onboarding;
+        return location == RouteNames.onboarding
+            ? null
+            : RouteNames.onboarding;
       }
 
       final isAuthenticated = authentication is AuthSessionAuthenticated;
+
       if (!isAuthenticated) {
         return location == RouteNames.login ? null : RouteNames.login;
       }
 
-      return location == RouteNames.accountBootstrap
-          ? null
-          : RouteNames.accountBootstrap;
+      if (location == RouteNames.accountBootstrap ||
+          location == RouteNames.home) {
+        return null;
+      }
+
+      return RouteNames.accountBootstrap;
     },
     routes: [
       GoRoute(
@@ -71,13 +77,6 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RouteNames.home,
         builder: (context, state) => const HomePage(),
-      ),
-
-      GoRoute(
-        path: RouteNames.accountType,
-        builder: (context, state) {
-          return const AccountTypePage();
-        },
       ),
     ],
   );
