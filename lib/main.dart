@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'config/bootstrap.dart';
-import 'config/riverpod_logger.dart';
-import 'ui/authentication/view_models/auth_session_view_model.dart';
-import 'ui/core/widgets/scout_app.dart';
-import 'ui/onboarding/view_models/onboarding_view_model.dart';
+import 'core/bootstrap/bootstrap.dart';
+import 'core/logging/riverpod_logger.dart';
+import 'core/shared/scout_app.dart';
+import 'features/authentication/presentation/viewmodels/auth_session_view_model.dart';
+import 'features/onboarding/presentation/viewmodels/onboarding_view_model.dart';
 
 Future<void> main() async {
   await bootstrap();
