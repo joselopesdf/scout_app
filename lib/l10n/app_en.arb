@@ -1,0 +1,23 @@
+{
+  "@@locale": "en",
+
+  "appName": "Scout App",
+
+  "onboardingDescription": "Connect players, scouts and clubs on a modern platform.",
+  "startButton": "Get started",
+
+  "loginTitle": "Sign in",
+  "loginSubtitle": "Access your account to continue.",
+  "loginWithGoogle": "Sign in with Google",
+  "loginError": "Unable to sign in. Check the configuration and try again.",
+
+  "accountTypeTitle": "Choose your profile",
+  "accountTypeQuestion": "How do you want to use Scout?",
+  "accountTypeSubtitle": "Choose an option to continue.",
+  "player": "Player",
+  "playerDescription": "Create your profile and showcase your talent.",
+  "scout": "Scout",
+  "scoutDescription": "Discover and follow players.",
+  "continueButton": "Continue",
+  "accountTypeSaveError": "Unable to save the account type."
+}

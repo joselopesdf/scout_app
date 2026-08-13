@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/account_type.dart';
 import '../../domain/entities/app_user.dart';
 import '../account_type/account_type_state.dart';
@@ -21,6 +22,8 @@ class AccountTypePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(accountTypeViewModelProvider);
+
+    final l10n = AppLocalizations.of(context)!;
 
     ref.listen<AccountTypeState>(
       accountTypeViewModelProvider,
@@ -49,7 +52,7 @@ class AccountTypePage extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text('Escolha o seu perfil'),
+          title:  Text(l10n.accountTypeTitle),
         ),
         body: SafeArea(
           child: Padding(
@@ -57,9 +60,9 @@ class AccountTypePage extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Text(
-                  'Como quer utilizar o Scout?',
-                  style: TextStyle(
+                Text(
+                  l10n.accountTypeQuestion,
+                  style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -67,16 +70,16 @@ class AccountTypePage extends ConsumerWidget {
 
                 const SizedBox(height: 8),
 
-                const Text(
-                  'Escolha uma opção para continuar.',
+                Text(
+                  l10n.accountTypeSubtitle,
                 ),
 
                 const SizedBox(height: 32),
 
                 _AccountTypeCard(
-                  title: 'Jogador',
+                  title: l10n.player,
                   description:
-                  'Crie o seu perfil e mostre o seu talento.',
+                      l10n.playerDescription,
                   selected:
                   state.selectedType == AccountType.player,
                   enabled: !state.isSaving,
@@ -90,9 +93,9 @@ class AccountTypePage extends ConsumerWidget {
                 const SizedBox(height: 16),
 
                 _AccountTypeCard(
-                  title: 'Olheiro',
+                  title: l10n.scout,
                   description:
-                  'Descubra e acompanhe jogadores.',
+                      l10n.scoutDescription,
                   selected:
                   state.selectedType == AccountType.scout,
                   enabled: !state.isSaving,
@@ -123,7 +126,7 @@ class AccountTypePage extends ConsumerWidget {
                       strokeWidth: 2,
                     ),
                   )
-                      : const Text('Continuar'),
+                      : Text(l10n.continueButton),
                 ),
               ],
             ),

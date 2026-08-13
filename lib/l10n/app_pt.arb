@@ -1,0 +1,23 @@
+{
+  "@@locale": "pt",
+
+  "appName": "Scout App",
+
+  "onboardingDescription": "Liga jogadores, olheiros e clubes numa plataforma moderna.",
+  "startButton": "Começar",
+
+  "loginTitle": "Entrar",
+  "loginSubtitle": "Acede à tua conta para continuar.",
+  "loginWithGoogle": "Entrar com Google",
+  "loginError": "Não foi possível iniciar sessão. Verifica a configuração e tenta novamente.",
+
+  "accountTypeTitle": "Escolha o seu perfil",
+  "accountTypeQuestion": "Como quer utilizar o Scout?",
+  "accountTypeSubtitle": "Escolha uma opção para continuar.",
+  "player": "Jogador",
+  "playerDescription": "Crie o seu perfil e mostre o seu talento.",
+  "scout": "Olheiro",
+  "scoutDescription": "Descubra e acompanhe jogadores.",
+  "continueButton": "Continuar",
+  "accountTypeSaveError": "Não foi possível guardar o tipo da conta."
+}
