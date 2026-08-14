@@ -5,4 +5,6 @@ abstract final class RouteNames {
   static const accountBootstrap = '/account-bootstrap';
   static const home = '/home';
   static const accountType = '/account-type';
+
+  static const createSound = '/create-sound';
 }

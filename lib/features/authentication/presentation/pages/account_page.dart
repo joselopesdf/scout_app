@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
+import '../../../../core/localization/locale_provider.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../domain/entities/account_type.dart';
 import '../../domain/entities/app_user.dart';
@@ -21,6 +21,7 @@ class AccountTypePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
     final state = ref.watch(accountTypeViewModelProvider);
 
     final l10n = AppLocalizations.of(context)!;
@@ -53,6 +54,45 @@ class AccountTypePage extends ConsumerWidget {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           title:  Text(l10n.accountTypeTitle),
+          actions: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: PopupMenuButton<String>(
+                icon: const Icon(Icons.language),
+                onSelected: (value) {
+                  final notifier = ref.read(appLanguageProvider.notifier);
+
+                  switch (value) {
+                    case 'pt':
+                      notifier.setPortuguese();
+                      break;
+                    case 'en':
+                      notifier.setEnglish();
+                      break;
+                    case 'system':
+                      notifier.setSystem();
+                      break;
+                  }
+                },
+                itemBuilder: (context) => const [
+                  PopupMenuItem(
+                    value: 'system',
+                    child: Text('Sistema'),
+                  ),
+                  PopupMenuItem(
+                    value: 'pt',
+                    child: Text('Português'),
+                  ),
+                  PopupMenuItem(
+                    value: 'en',
+                    child: Text('English'),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(width: 16),
+          ],
+
         ),
         body: SafeArea(
           child: Padding(

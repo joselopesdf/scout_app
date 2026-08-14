@@ -11,6 +11,7 @@ import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/onboarding/presentation/pages/onboarding_page.dart';
 import '../../features/onboarding/presentation/viewmodels/onboarding_state.dart';
 import '../../features/onboarding/presentation/viewmodels/onboarding_view_model.dart';
+import '../../features/sound/presentation/create_sound_page.dart';
 import 'route_names.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -29,33 +30,51 @@ final routerProvider = Provider<GoRouter>((ref) {
     initialLocation: RouteNames.splash,
     refreshListenable: refreshNotifier,
     redirect: (context, state) {
-      final authentication = ref.read(authSessionViewModelProvider);
+      final authentication =
+      ref.read(authSessionViewModelProvider);
+
+      final onboarding =
+      ref.read(onboardingViewModelProvider);
+
       final location = state.matchedLocation;
 
+      // 1. Ainda verificando autenticação.
       if (authentication is AuthSessionChecking) {
-        return location == RouteNames.splash ? null : RouteNames.splash;
+        return location == RouteNames.splash
+            ? null
+            : RouteNames.splash;
       }
 
-      final onboarding = ref.read(onboardingViewModelProvider);
-
+      // 2. Onboarding ainda não concluído.
       if (onboarding is! OnboardingCompleted) {
         return location == RouteNames.onboarding
             ? null
             : RouteNames.onboarding;
       }
 
-      final isAuthenticated = authentication is AuthSessionAuthenticated;
+      final isAuthenticated =
+      authentication is AuthSessionAuthenticated;
 
+      // 3. Não autenticado -> Login.
       if (!isAuthenticated) {
-        return location == RouteNames.login ? null : RouteNames.login;
+        return location == RouteNames.login
+            ? null
+            : RouteNames.login;
       }
 
-      if (location == RouteNames.accountBootstrap ||
-          location == RouteNames.home) {
-        return null;
+      // 4. Usuário autenticado tentando acessar
+      // páginas que já não fazem sentido.
+      final isPublicRoute =
+          location == RouteNames.splash ||
+              location == RouteNames.onboarding ||
+              location == RouteNames.login;
+
+      if (isPublicRoute) {
+        return RouteNames.accountBootstrap;
       }
 
-      return RouteNames.accountBootstrap;
+      // 5. Restante das páginas privadas são permitidas.
+      return null;
     },
     routes: [
       GoRoute(
@@ -77,6 +96,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: RouteNames.home,
         builder: (context, state) => const HomePage(),
+      ),
+
+      GoRoute(
+        path: RouteNames.createSound,
+        builder: (context, state) => const CreateSoundPage(),
       ),
     ],
   );
