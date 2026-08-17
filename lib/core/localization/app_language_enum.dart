@@ -1,5 +1,1 @@
-enum AppLanguage {
-  system,
-  portuguese,
-  english,
-}
+enum AppLanguage { system, portuguese, english }

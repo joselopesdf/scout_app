@@ -4,7 +4,5 @@ abstract interface class SoundRepository {
     required String soundId,
   });
 
-  Future<void> deleteLocalAudio({
-    required String path,
-  });
+  Future<void> deleteLocalAudio({required String path});
 }

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-import '../../../../core/routing/route_names.dart';
 import '../widgets/logout_button.dart';
 import '../widgets/theme_toggle_button.dart';
 
@@ -26,13 +23,13 @@ class HomePage extends StatelessWidget {
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
 
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                context.push(RouteNames.createSound);
-              },
-              child: const Text('Criar som'),
-            ),
+            // SizedBox(height: 16),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     context.push(RouteNames.createSound);
+            //   },
+            //   child: const Text('Criar som'),
+            // ),
           ],
         ),
       ),

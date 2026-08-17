@@ -1,17 +1,6 @@
+enum SoundSource { localFile, url }
 
-
-enum SoundSource {
-  localFile,
-  url,
-}
-
-enum SoundIcon {
-  laugh,
-  football,
-  horn,
-  clown,
-  fire,
-}
+enum SoundIcon { laugh, football, horn, clown, fire }
 
 class CreateSoundState {
   final String name;
@@ -50,8 +39,7 @@ class CreateSoundState {
       name: name ?? this.name,
       source: source ?? this.source,
       url: url ?? this.url,
-      selectedFilePath:
-      selectedFilePath ?? this.selectedFilePath,
+      selectedFilePath: selectedFilePath ?? this.selectedFilePath,
       selectedIcon: selectedIcon ?? this.selectedIcon,
     );
   }

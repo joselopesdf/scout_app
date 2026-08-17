@@ -9,15 +9,12 @@ class CreateSoundPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final state = ref.watch(createSoundViewModelProvider);
 
     final notifier = ref.read(createSoundViewModelProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Criar som'),
-      ),
+      appBar: AppBar(title: const Text('Criar som')),
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) {
@@ -25,12 +22,9 @@ class CreateSoundPage extends ConsumerWidget {
               padding: const EdgeInsets.all(24),
               child: Center(
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(
-                    maxWidth: 600,
-                  ),
+                  constraints: const BoxConstraints(maxWidth: 600),
                   child: Column(
-                    crossAxisAlignment:
-                    CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const Text(
                         'Nome do som',
@@ -76,32 +70,23 @@ class CreateSoundPage extends ConsumerWidget {
                             label: Text('URL'),
                           ),
                         ],
-                        selected: {
-                          state.source,
-                        },
+                        selected: {state.source},
                         onSelectionChanged: (selection) {
-                          notifier.setSource(
-                            selection.first,
-                          );
+                          notifier.setSource(selection.first);
                         },
                       ),
 
                       const SizedBox(height: 24),
 
-                      if (state.source ==
-                          SoundSource.localFile)
+                      if (state.source == SoundSource.localFile)
                         _LocalFileSection(
-                          selectedFilePath:
-                          state.selectedFilePath,
+                          selectedFilePath: state.selectedFilePath,
                           onChooseFile: () {
                             // Próxima etapa:
                             // abrir file picker real.
-                            notifier.setSelectedFile(
-                              'audio_exemplo.mp3',
-                            );
+                            notifier.setSelectedFile('audio_exemplo.mp3');
                           },
-                          onRemoveFile:
-                          notifier.clearSelectedFile,
+                          onRemoveFile: notifier.clearSelectedFile,
                         )
                       else
                         TextField(
@@ -109,8 +94,7 @@ class CreateSoundPage extends ConsumerWidget {
                           onChanged: notifier.setUrl,
                           decoration: const InputDecoration(
                             labelText: 'URL do áudio',
-                            hintText:
-                            'https://exemplo.com/audio.mp3',
+                            hintText: 'https://exemplo.com/audio.mp3',
                             prefixIcon: Icon(Icons.link),
                             border: OutlineInputBorder(),
                           ),
@@ -134,8 +118,7 @@ class CreateSoundPage extends ConsumerWidget {
                         children: SoundIcon.values.map((icon) {
                           return _SoundIconButton(
                             icon: icon,
-                            selected:
-                            state.selectedIcon == icon,
+                            selected: state.selectedIcon == icon,
                             onTap: () {
                               notifier.setIcon(icon);
                             },
@@ -146,9 +129,7 @@ class CreateSoundPage extends ConsumerWidget {
                       const SizedBox(height: 40),
 
                       FilledButton.icon(
-                        onPressed: state.canSubmit
-                            ? notifier.submit
-                            : null,
+                        onPressed: state.canSubmit ? notifier.submit : null,
                         icon: const Icon(Icons.save),
                         label: const Text('Salvar som'),
                       ),
@@ -181,9 +162,7 @@ class _LocalFileSection extends StatelessWidget {
       return OutlinedButton.icon(
         onPressed: onChooseFile,
         icon: const Icon(Icons.folder_open),
-        label: const Text(
-          'Escolher áudio do dispositivo',
-        ),
+        label: const Text('Escolher áudio do dispositivo'),
       );
     }
 
@@ -233,26 +212,18 @@ class _SoundIconButton extends StatelessWidget {
                 : Theme.of(context).dividerColor,
           ),
         ),
-        child: Icon(
-          _iconData(icon),
-          size: 30,
-        ),
+        child: Icon(_iconData(icon), size: 30),
       ),
     );
   }
 
   IconData _iconData(SoundIcon icon) {
     return switch (icon) {
-      SoundIcon.laugh =>
-      Icons.sentiment_very_satisfied,
-      SoundIcon.football =>
-      Icons.sports_soccer,
-      SoundIcon.horn =>
-      Icons.campaign,
-      SoundIcon.clown =>
-      Icons.theater_comedy,
-      SoundIcon.fire =>
-      Icons.local_fire_department,
+      SoundIcon.laugh => Icons.sentiment_very_satisfied,
+      SoundIcon.football => Icons.sports_soccer,
+      SoundIcon.horn => Icons.campaign,
+      SoundIcon.clown => Icons.theater_comedy,
+      SoundIcon.fire => Icons.local_fire_department,
     };
   }
 }

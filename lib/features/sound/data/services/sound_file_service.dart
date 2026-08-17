@@ -17,19 +17,16 @@ class SoundFileService {
       );
     }
 
-    final appDirectory =
-    await getApplicationDocumentsDirectory();
+    final appDirectory = await getApplicationDocumentsDirectory();
 
     final soundsDirectory = Directory(
       '${appDirectory.path}'
-          '${Platform.pathSeparator}'
-          '$_soundsDirectoryName',
+      '${Platform.pathSeparator}'
+      '$_soundsDirectoryName',
     );
 
     if (!await soundsDirectory.exists()) {
-      await soundsDirectory.create(
-        recursive: true,
-      );
+      await soundsDirectory.create(recursive: true);
     }
 
     final extension = _getExtension(sourcePath);
@@ -39,16 +36,12 @@ class SoundFileService {
         '${Platform.pathSeparator}'
         '$soundId$extension';
 
-    final copiedFile = await sourceFile.copy(
-      destinationPath,
-    );
+    final copiedFile = await sourceFile.copy(destinationPath);
 
     return copiedFile.path;
   }
 
-  Future<void> deleteAudio({
-    required String path,
-  }) async {
+  Future<void> deleteAudio({required String path}) async {
     final file = File(path);
 
     if (await file.exists()) {
@@ -57,8 +50,7 @@ class SoundFileService {
   }
 
   String _getExtension(String path) {
-    final fileName =
-        path.split(Platform.pathSeparator).last;
+    final fileName = path.split(Platform.pathSeparator).last;
 
     final dotIndex = fileName.lastIndexOf('.');
 

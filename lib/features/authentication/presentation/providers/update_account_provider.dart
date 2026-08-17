@@ -6,11 +6,10 @@ import '../../domain/repositories/account_repository.dart';
 import '../account_type/account_type_state.dart';
 import '../providers/authentication_providers.dart';
 
-
 final accountTypeViewModelProvider =
-NotifierProvider<AccountTypeViewModel, AccountTypeState>(
-  AccountTypeViewModel.new,
-);
+    NotifierProvider<AccountTypeViewModel, AccountTypeState>(
+      AccountTypeViewModel.new,
+    );
 
 class AccountTypeViewModel extends Notifier<AccountTypeState> {
   late AccountRepository _repository;
@@ -25,9 +24,7 @@ class AccountTypeViewModel extends Notifier<AccountTypeState> {
   void selectType(AccountType type) {
     if (state.isSaving) return;
 
-    state = AccountTypeState(
-      selectedType: type,
-    );
+    state = AccountTypeState(selectedType: type);
   }
 
   Future<void> saveAccountType(AppUser user) async {
@@ -37,10 +34,7 @@ class AccountTypeViewModel extends Notifier<AccountTypeState> {
 
     if (state.isSaving) return;
 
-    state = AccountTypeState(
-      selectedType: selectedType,
-      isSaving: true,
-    );
+    state = AccountTypeState(selectedType: selectedType, isSaving: true);
 
     try {
       await _repository.updateAccountType(
@@ -48,10 +42,7 @@ class AccountTypeViewModel extends Notifier<AccountTypeState> {
         accountType: selectedType,
       );
 
-      state = AccountTypeState(
-        selectedType: selectedType,
-        isSuccess: true,
-      );
+      state = AccountTypeState(selectedType: selectedType, isSuccess: true);
     } catch (_) {
       state = AccountTypeState(
         selectedType: selectedType,

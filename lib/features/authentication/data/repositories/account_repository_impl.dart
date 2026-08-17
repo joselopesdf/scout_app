@@ -43,24 +43,19 @@ class AccountRepositoryImpl implements AccountRepository {
     );
   }
 
-
   @override
   Future<AppUser> updateAccountType({
     required AppUser user,
     required AccountType accountType,
   }) async {
-    final updatedUser = user.copyWith(
-      accountType: accountType,
-    );
+    final updatedUser = user.copyWith(accountType: accountType);
 
     await _userFirestoreService.update(
       uid: user.uid,
       data: AppUserMapper.toUpdateMap(updatedUser),
     );
 
-    final updatedDocument = await _userFirestoreService.findByUid(
-      user.uid,
-    );
+    final updatedDocument = await _userFirestoreService.findByUid(user.uid);
 
     final updatedData = updatedDocument.data();
 
@@ -75,5 +70,4 @@ class AccountRepositoryImpl implements AccountRepository {
       data: updatedData,
     );
   }
-
 }

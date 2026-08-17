@@ -4,7 +4,8 @@ abstract final class RouteNames {
   static const login = '/login';
   static const accountBootstrap = '/account-bootstrap';
   static const home = '/home';
-  static const accountType = '/account-type';
+  static const players = '/players';
+  static const playerProfile = '/players/:userId';
 
-  static const createSound = '/create-sound';
+  static String playerProfilePath(String userId) => '/players/$userId';
 }

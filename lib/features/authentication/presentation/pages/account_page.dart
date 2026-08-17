@@ -8,12 +8,11 @@ import '../../domain/entities/app_user.dart';
 import '../account_type/account_type_state.dart';
 import '../providers/update_account_provider.dart';
 
-
 class AccountTypePage extends ConsumerWidget {
   final AppUser user;
   final VoidCallback onCompleted;
 
-  const AccountTypePage( {
+  const AccountTypePage({
     super.key,
     required this.user,
     required this.onCompleted,
@@ -21,39 +20,36 @@ class AccountTypePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     final state = ref.watch(accountTypeViewModelProvider);
 
     final l10n = AppLocalizations.of(context)!;
 
-    ref.listen<AccountTypeState>(
-      accountTypeViewModelProvider,
-          (previous, next) {
-        debugPrint('LISTEN');
-        debugPrint('previous success: ${previous?.isSuccess}');
-        debugPrint('next success: ${next.isSuccess}');
+    ref.listen<AccountTypeState>(accountTypeViewModelProvider, (
+      previous,
+      next,
+    ) {
+      debugPrint('LISTEN');
+      debugPrint('previous success: ${previous?.isSuccess}');
+      debugPrint('next success: ${next.isSuccess}');
 
-        if (next.isSuccess && previous?.isSuccess != true) {
-          onCompleted();
-        }
+      if (next.isSuccess && previous?.isSuccess != true) {
+        onCompleted();
+      }
 
-        if (next.errorMessage != null &&
-            next.errorMessage != previous?.errorMessage) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(next.errorMessage!),
-            ),
-          );
-        }
-      },
-    );
+      if (next.errorMessage != null &&
+          next.errorMessage != previous?.errorMessage) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(next.errorMessage!)));
+      }
+    });
 
     return PopScope(
       canPop: false,
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title:  Text(l10n.accountTypeTitle),
+          title: Text(l10n.accountTypeTitle),
           actions: [
             Align(
               alignment: Alignment.centerRight,
@@ -75,24 +71,14 @@ class AccountTypePage extends ConsumerWidget {
                   }
                 },
                 itemBuilder: (context) => const [
-                  PopupMenuItem(
-                    value: 'system',
-                    child: Text('Sistema'),
-                  ),
-                  PopupMenuItem(
-                    value: 'pt',
-                    child: Text('Português'),
-                  ),
-                  PopupMenuItem(
-                    value: 'en',
-                    child: Text('English'),
-                  ),
+                  PopupMenuItem(value: 'system', child: Text('Sistema')),
+                  PopupMenuItem(value: 'pt', child: Text('Português')),
+                  PopupMenuItem(value: 'en', child: Text('English')),
                 ],
               ),
             ),
             SizedBox(width: 16),
           ],
-
         ),
         body: SafeArea(
           child: Padding(
@@ -110,18 +96,14 @@ class AccountTypePage extends ConsumerWidget {
 
                 const SizedBox(height: 8),
 
-                Text(
-                  l10n.accountTypeSubtitle,
-                ),
+                Text(l10n.accountTypeSubtitle),
 
                 const SizedBox(height: 32),
 
                 _AccountTypeCard(
                   title: l10n.player,
-                  description:
-                      l10n.playerDescription,
-                  selected:
-                  state.selectedType == AccountType.player,
+                  description: l10n.playerDescription,
+                  selected: state.selectedType == AccountType.player,
                   enabled: !state.isSaving,
                   onTap: () {
                     ref
@@ -134,10 +116,8 @@ class AccountTypePage extends ConsumerWidget {
 
                 _AccountTypeCard(
                   title: l10n.scout,
-                  description:
-                      l10n.scoutDescription,
-                  selected:
-                  state.selectedType == AccountType.scout,
+                  description: l10n.scoutDescription,
+                  selected: state.selectedType == AccountType.scout,
                   enabled: !state.isSaving,
                   onTap: () {
                     ref
@@ -151,21 +131,17 @@ class AccountTypePage extends ConsumerWidget {
                 FilledButton(
                   onPressed: state.canContinue
                       ? () {
-                    ref
-                        .read(
-                      accountTypeViewModelProvider.notifier,
-                    )
-                        .saveAccountType(user);
-                  }
+                          ref
+                              .read(accountTypeViewModelProvider.notifier)
+                              .saveAccountType(user);
+                        }
                       : null,
                   child: state.isSaving
                       ? const SizedBox(
-                    width: 20,
-                    height: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                    ),
-                  )
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
                       : Text(l10n.continueButton),
                 ),
               ],

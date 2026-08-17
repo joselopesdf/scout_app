@@ -1,5 +1,3 @@
-
-
 import '../../domain/entities/account_type.dart';
 
 class AccountTypeState {

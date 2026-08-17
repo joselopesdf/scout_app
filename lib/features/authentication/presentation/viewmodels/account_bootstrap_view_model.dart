@@ -8,9 +8,9 @@ import '../providers/authentication_providers.dart';
 import 'account_bootstrap_state.dart';
 
 final accountBootstrapViewModelProvider =
-NotifierProvider<AccountBootstrapViewModel, AccountBootstrapState>(
-  AccountBootstrapViewModel.new,
-);
+    NotifierProvider<AccountBootstrapViewModel, AccountBootstrapState>(
+      AccountBootstrapViewModel.new,
+    );
 
 class AccountBootstrapViewModel extends Notifier<AccountBootstrapState> {
   late final AccountRepository _repository;
@@ -27,9 +27,7 @@ class AccountBootstrapViewModel extends Notifier<AccountBootstrapState> {
     return const AccountBootstrapInitial();
   }
 
-  Future<void> loadOrCreateUser(
-      AppUser authenticatedUser,
-      ) async {
+  Future<void> loadOrCreateUser(AppUser authenticatedUser) async {
     final uid = authenticatedUser.uid;
 
     // Evita duas requests simultâneas para o mesmo utilizador.
@@ -39,17 +37,14 @@ class AccountBootstrapViewModel extends Notifier<AccountBootstrapState> {
 
     // Se já carregámos este utilizador e o estado continua Ready,
     // não precisamos consultar novamente o Firestore.
-    if (_loadedUid == uid &&
-        state is AccountBootstrapReady) {
+    if (_loadedUid == uid && state is AccountBootstrapReady) {
       return;
     }
 
     await _loadUser(authenticatedUser);
   }
 
-  Future<void> refresh(
-      AppUser authenticatedUser,
-      ) async {
+  Future<void> refresh(AppUser authenticatedUser) async {
     // Aqui queremos explicitamente ignorar o cache.
     //
     // Exemplo:
@@ -59,18 +54,14 @@ class AccountBootstrapViewModel extends Notifier<AccountBootstrapState> {
     await _loadUser(authenticatedUser);
   }
 
-  Future<void> retry(
-      AppUser authenticatedUser,
-      ) async {
+  Future<void> retry(AppUser authenticatedUser) async {
     // Depois de uma falha queremos permitir uma nova tentativa.
     _loadedUid = null;
 
     await _loadUser(authenticatedUser);
   }
 
-  Future<void> _loadUser(
-      AppUser authenticatedUser,
-      ) async {
+  Future<void> _loadUser(AppUser authenticatedUser) async {
     final uid = authenticatedUser.uid;
 
     // Mesmo refresh/retry não deve criar duas requests simultâneas.
@@ -85,9 +76,7 @@ class AccountBootstrapViewModel extends Notifier<AccountBootstrapState> {
     state = const AccountBootstrapLoading();
 
     try {
-      final user = await _repository.loadOrCreateUser(
-        authenticatedUser,
-      );
+      final user = await _repository.loadOrCreateUser(authenticatedUser);
 
       // Se outra request mais recente começou,
       // ignoramos o resultado desta.

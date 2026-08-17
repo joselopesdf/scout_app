@@ -17,11 +17,9 @@ class LoginPage extends ConsumerWidget {
 
     ref.listen(loginViewModelProvider, (previous, next) {
       if (next is LoginFailure) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(l10n.loginError),
-          ),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(l10n.loginError)));
       }
     });
 
@@ -44,12 +42,7 @@ class LoginPage extends ConsumerWidget {
 
               const SizedBox(height: 12),
 
-              Text(
-                l10n.loginSubtitle,
-                style: const TextStyle(
-                  fontSize: 16,
-                ),
-              ),
+              Text(l10n.loginSubtitle, style: const TextStyle(fontSize: 16)),
 
               const Spacer(),
 
@@ -60,15 +53,13 @@ class LoginPage extends ConsumerWidget {
                   onPressed: isLoading
                       ? null
                       : () => ref
-                      .read(loginViewModelProvider.notifier)
-                      .signInWithGoogle(),
+                            .read(loginViewModelProvider.notifier)
+                            .signInWithGoogle(),
                   icon: isLoading
                       ? const SizedBox.square(
-                    dimension: 20,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                    ),
-                  )
+                          dimension: 20,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
                       : const Icon(Icons.login),
                   label: Text(l10n.loginWithGoogle),
                 ),

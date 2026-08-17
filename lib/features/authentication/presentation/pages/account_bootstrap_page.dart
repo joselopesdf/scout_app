@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../home/presentation/pages/home_page.dart';
+import '../../../player_profile/presentation/gate/player_profile_gate_page.dart';
+import '../../../player_profile/presentation/player_list/scout_player_list_page.dart';
 import 'account_page.dart';
 import '../viewmodels/account_bootstrap_state.dart';
 import '../viewmodels/account_bootstrap_view_model.dart';
@@ -40,16 +41,17 @@ class _AccountBootstrapPageState extends ConsumerState<AccountBootstrapPage> {
     final authentication = ref.watch(authSessionViewModelProvider);
 
     return switch (bootstrap) {
-      AccountBootstrapReady(:final user) => user.accountType == null
-          ? AccountTypePage(
-        user: user,
-        onCompleted: () {
-          ref
-              .read(accountBootstrapViewModelProvider.notifier)
-              .refresh(user);
-        },
-      )
-          : const HomePage(),
+      AccountBootstrapReady(:final user) =>
+        user.accountType == null
+            ? AccountTypePage(
+                user: user,
+                onCompleted: () => ref
+                    .read(accountBootstrapViewModelProvider.notifier)
+                    .refresh(user),
+              )
+            : user.isPlayer
+            ? PlayerProfileGatePage(user: user)
+            : const ScoutPlayerListPage(),
 
       AccountBootstrapFailure(:final message) => Scaffold(
         body: SafeArea(
@@ -59,18 +61,13 @@ class _AccountBootstrapPageState extends ConsumerState<AccountBootstrapPage> {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    message,
-                    textAlign: TextAlign.center,
-                  ),
+                  Text(message, textAlign: TextAlign.center),
                   const SizedBox(height: 16),
                   FilledButton(
                     onPressed: authentication is AuthSessionAuthenticated
                         ? () => ref
-                        .read(
-                      accountBootstrapViewModelProvider.notifier,
-                    )
-                        .retry(authentication.user)
+                              .read(accountBootstrapViewModelProvider.notifier)
+                              .retry(authentication.user)
                         : null,
                     child: const Text('Tentar novamente'),
                   ),
@@ -81,11 +78,7 @@ class _AccountBootstrapPageState extends ConsumerState<AccountBootstrapPage> {
         ),
       ),
 
-      _ => const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      ),
+      _ => const Scaffold(body: Center(child: CircularProgressIndicator())),
     };
   }
 }

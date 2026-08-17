@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../../../../core/firebase/firebase_providers.dart';
 import '../../data/repositories/account_repository_impl.dart';
 import '../../data/repositories/auth_repository_impl.dart';
 import '../../data/services/firebase_auth_service.dart';
@@ -17,10 +17,6 @@ final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
 
 final googleSignInProvider = Provider<GoogleSignIn>((ref) {
   return GoogleSignIn.instance;
-});
-
-final firebaseFirestoreProvider = Provider<FirebaseFirestore>((ref) {
-  return FirebaseFirestore.instance;
 });
 
 final firebaseAuthServiceProvider = Provider<FirebaseAuthService>((ref) {

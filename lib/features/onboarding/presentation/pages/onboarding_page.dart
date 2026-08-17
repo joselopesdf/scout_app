@@ -51,18 +51,9 @@ class OnboardingPage extends ConsumerWidget {
                     }
                   },
                   itemBuilder: (context) => const [
-                    PopupMenuItem(
-                      value: 'system',
-                      child: Text('Sistema'),
-                    ),
-                    PopupMenuItem(
-                      value: 'pt',
-                      child: Text('Português'),
-                    ),
-                    PopupMenuItem(
-                      value: 'en',
-                      child: Text('English'),
-                    ),
+                    PopupMenuItem(value: 'system', child: Text('Sistema')),
+                    PopupMenuItem(value: 'pt', child: Text('Português')),
+                    PopupMenuItem(value: 'en', child: Text('English')),
                   ],
                 ),
               ),
@@ -77,10 +68,7 @@ class OnboardingPage extends ConsumerWidget {
               const SizedBox(height: 12),
               Text(
                 l10n.onboardingDescription,
-                style: const TextStyle(
-                  fontSize: 16,
-                  height: 1.4,
-                ),
+                style: const TextStyle(fontSize: 16, height: 1.4),
               ),
               const Spacer(),
               SizedBox(
@@ -97,7 +85,7 @@ class OnboardingPage extends ConsumerWidget {
                           dimension: 20,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      :   Text(l10n.startButton),
+                      : Text(l10n.startButton),
                 ),
               ),
             ],

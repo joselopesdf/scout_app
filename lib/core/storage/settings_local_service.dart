@@ -14,5 +14,4 @@ class SettingsLocalService {
   Future<void> writeBool(String key, bool value) => _box.put(key, value);
 
   Future<void> writeString(String key, String value) => _box.put(key, value);
-
 }

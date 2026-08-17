@@ -1,4 +1,7 @@
 {
+  "firestore": {
+    "rules": "firestore.rules"
+  },
   "flutter": {
     "platforms": {
       "android": {
@@ -9,7 +12,7 @@
         }
       },
       "dart": {
-        "lib/firebase_options.dart": {
+        "lib/core/firebase/firebase_options.dart": {
           "projectId": "scout-app190",
           "configurations": {
             "android": "1:379357791203:android:c3f05703b3a087b06256d6",

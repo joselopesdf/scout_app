@@ -1,13 +1,11 @@
-
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'create_sound_state.dart';
 
 final createSoundViewModelProvider =
-NotifierProvider<CreateSoundViewModel, CreateSoundState>(
-  CreateSoundViewModel.new,
-);
+    NotifierProvider<CreateSoundViewModel, CreateSoundState>(
+      CreateSoundViewModel.new,
+    );
 
 class CreateSoundViewModel extends Notifier<CreateSoundState> {
   @override
@@ -32,9 +30,7 @@ class CreateSoundViewModel extends Notifier<CreateSoundState> {
   }
 
   void setSelectedFile(String path) {
-    state = state.copyWith(
-      selectedFilePath: path,
-    );
+    state = state.copyWith(selectedFilePath: path);
   }
 
   void clearSelectedFile() {
@@ -50,6 +46,5 @@ class CreateSoundViewModel extends Notifier<CreateSoundState> {
     if (!state.canSubmit) {
       return;
     }
-
   }
 }
