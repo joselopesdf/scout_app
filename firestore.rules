@@ -10,22 +10,156 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == uid;
     }
 
+    function currentUser() {
+      return get(
+        /databases/$(database)/documents/users/$(request.auth.uid)
+      ).data;
+    }
+
+    function isActiveAccountType(accountType) {
+      return isSignedIn()
+        && currentUser().status == 'active'
+        && currentUser().accountType == accountType;
+    }
+
+    function isPlayer() {
+      return isActiveAccountType('player');
+    }
+
+    function isScout() {
+      return isActiveAccountType('scout');
+    }
+
+    function hasExactUserFields(data) {
+      return data.keys().hasAll([
+          'uid', 'email', 'displayName', 'photoUrl', 'accountType',
+          'onboardingCompleted', 'status', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'uid', 'email', 'displayName', 'photoUrl', 'accountType',
+          'onboardingCompleted', 'status', 'createdAt', 'updatedAt'
+        ]);
+    }
+
+    function hasValidUserFieldTypes(data) {
+      return (data.email == null || data.email is string)
+        && (data.displayName == null || data.displayName is string)
+        && (data.photoUrl == null || data.photoUrl is string)
+        && (data.accountType == null
+          || data.accountType in ['player', 'scout'])
+        && data.onboardingCompleted is bool
+        && data.status in ['active', 'blocked', 'disabled']
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidNewUser(uid) {
+      let data = request.resource.data;
+      return hasExactUserFields(data)
+        && hasValidUserFieldTypes(data)
+        && data.uid == uid
+        && data.accountType == null
+        && data.onboardingCompleted == false
+        && data.status == 'active'
+        && data.createdAt == request.time
+        && data.updatedAt == request.time;
+    }
+
+    function hasValidAccountTypeTransition() {
+      return request.resource.data.accountType == resource.data.accountType
+        || (resource.data.accountType == null
+          && request.resource.data.accountType in ['player', 'scout']);
+    }
+
+    function isValidUserUpdate(uid) {
+      let data = request.resource.data;
+      return hasExactUserFields(data)
+        && hasValidUserFieldTypes(data)
+        && data.uid == uid
+        && data.uid == resource.data.uid
+        && data.status == resource.data.status
+        && data.createdAt == resource.data.createdAt
+        && data.updatedAt == request.time
+        && hasValidAccountTypeTransition()
+        && data.diff(resource.data).affectedKeys().hasOnly([
+          'email', 'displayName', 'photoUrl', 'accountType',
+          'onboardingCompleted', 'updatedAt'
+        ]);
+    }
+
+    function hasExactPlayerFields(data) {
+      return data.keys().hasAll([
+          'userId', 'fullName', 'birthDate', 'position', 'preferredFoot',
+          'currentClub', 'bio', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'userId', 'fullName', 'birthDate', 'position', 'preferredFoot',
+          'currentClub', 'bio', 'createdAt', 'updatedAt'
+        ]);
+    }
+
+    function hasValidPlayerFieldTypes(data) {
+      return data.userId is string
+        && data.fullName is string
+        && data.fullName.size() > 0
+        && data.fullName.size() <= 120
+        && data.birthDate is timestamp
+        && data.birthDate <= request.time
+        && data.position in [
+          'goalkeeper', 'defender', 'midfielder', 'forward'
+        ]
+        && data.preferredFoot in ['left', 'right', 'both']
+        && (data.currentClub == null
+          || (data.currentClub is string && data.currentClub.size() <= 120))
+        && (data.bio == null
+          || (data.bio is string && data.bio.size() <= 1000))
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidNewPlayer(uid) {
+      let data = request.resource.data;
+      return hasExactPlayerFields(data)
+        && hasValidPlayerFieldTypes(data)
+        && data.userId == uid
+        && data.createdAt == request.time
+        && data.updatedAt == request.time;
+    }
+
+    function isValidPlayerUpdate(uid) {
+      let data = request.resource.data;
+      return hasExactPlayerFields(data)
+        && hasValidPlayerFieldTypes(data)
+        && data.userId == uid
+        && data.userId == resource.data.userId
+        && data.createdAt == resource.data.createdAt
+        && data.updatedAt == request.time
+        && data.diff(resource.data).affectedKeys().hasOnly([
+          'fullName', 'birthDate', 'position', 'preferredFoot',
+          'currentClub', 'bio', 'updatedAt'
+        ]);
+    }
+
     match /users/{uid} {
-      allow create: if isOwner(uid) && request.resource.data.uid == uid;
-      allow read: if isOwner(uid);
+      allow get: if isOwner(uid);
+      allow list: if false;
+      allow create: if isOwner(uid) && isValidNewUser(uid);
       allow update: if isOwner(uid)
-        && request.resource.data.uid == resource.data.uid;
+        && resource.data.status == 'active'
+        && isValidUserUpdate(uid);
       allow delete: if false;
     }
 
     match /players/{uid} {
-      allow read: if isSignedIn();
+      allow get: if isOwner(uid) || isScout();
+      allow list: if isScout();
       allow create: if isOwner(uid)
-        && request.resource.data.userId == uid;
+        && isPlayer()
+        && isValidNewPlayer(uid);
       allow update: if isOwner(uid)
-        && resource.data.userId == uid
-        && request.resource.data.userId == uid;
-      allow delete: if isOwner(uid);
+        && isPlayer()
+        && isValidPlayerUpdate(uid);
+      allow delete: if false;
     }
   }
 }
