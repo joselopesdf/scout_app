@@ -32,6 +32,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+/node_modules/
 
 # Symbolication related
 app.*.symbols
@@ -43,3 +44,16 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Local environment files may contain secrets.
+.env
+.env.*
+!.env.example
+
+# Android signing credentials.
+**/key.properties
+**/*.jks
+**/*.keystore
+
+# Firebase Admin / Google Cloud service-account private keys.
+**/service-account.json
