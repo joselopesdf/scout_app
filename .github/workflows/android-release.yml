@@ -34,7 +34,11 @@ jobs:
         id: version
         shell: bash
         run: |
-          current_version="$(sed -n 's/^version:[[:space:]]*//p' pubspec.yaml | head -n 1)"
+          current_version="$(
+            sed -n 's/^version:[[:space:]]*//p' pubspec.yaml |
+            head -n 1
+          )"
+
           previous_commit="${{ github.event.before }}"
 
           if [[ -z "$current_version" ]]; then
@@ -59,17 +63,18 @@ jobs:
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             safe_version="${current_version//+/-}"
+
             echo "changed=true" >> "$GITHUB_OUTPUT"
             echo "version=$safe_version" >> "$GITHUB_OUTPUT"
           fi
 
-  build-aab:
-    name: Build signed Android App Bundle
+  build-release:
+    name: Build signed Android release
     needs: detect-version
     if: needs.detect-version.outputs.changed == 'true'
 
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 35
     environment: android-release
 
     steps:
@@ -138,6 +143,9 @@ jobs:
       - name: Build signed AAB
         run: flutter build appbundle --release
 
+      - name: Build signed release APKs
+        run: flutter build apk --release --split-per-abi
+
       - name: Verify AAB signature
         run: >
           jarsigner -verify
@@ -146,8 +154,19 @@ jobs:
       - name: Upload signed AAB
         uses: actions/upload-artifact@v4
         with:
-          name: scout-app-${{ needs.detect-version.outputs.version }}
+          name: scout-app-aab-${{ needs.detect-version.outputs.version }}
           path: build/app/outputs/bundle/release/app-release.aab
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Upload signed release APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: scout-app-apks-${{ needs.detect-version.outputs.version }}
+          path: |
+            build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk
+            build/app/outputs/flutter-apk/app-arm64-v8a-release.apk
+            build/app/outputs/flutter-apk/app-x86_64-release.apk
           if-no-files-found: error
           retention-days: 30
 
