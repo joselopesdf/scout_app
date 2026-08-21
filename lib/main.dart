@@ -13,6 +13,7 @@ Future<void> main() async {
   final container = ProviderContainer(observers: const [RiverpodLogger()]);
 
   container.read(onboardingViewModelProvider);
+
   container.read(authSessionViewModelProvider);
 
   runApp(
